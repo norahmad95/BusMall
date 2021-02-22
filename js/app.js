@@ -42,19 +42,6 @@ function getExtention(img) {
     return (idx < 1) ? '' : img.substr(idx + 1);
 }
 
-// function imgName(name) {
-//     imgs.push(name.split('.').slice(0, -1).join('.'));
-// }
-// for (let i = 0; i < names.length; i++) {
-//     imgs.push(names[i].split('.').slice(0, -1).join('.'));
-// }
-// for (let i = 0; i < names.length; i++) {
-//     extention.push(getExtention(names[i]));
-// }
-
-
-
-
 
 function
 Product(name) {
@@ -150,7 +137,6 @@ function handleClick(event) {
 function randomNumber(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
-
 
 render();
 
