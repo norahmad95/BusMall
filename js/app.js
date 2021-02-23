@@ -54,6 +54,40 @@ Product(name) {
 }
 
 Product.all = [];
+// JOSN 
+for (let i = 0; i < Product.length; i++) {
+    new Product(Product[i]);
+}
+
+function updateList() {
+    const upList = JSON.stringify(Product.all);
+    localStorage.setItem("voteProducts", upList);
+}
+
+
+function getList() {
+    const gList = localStorage.getItem("voteProduct");
+    if (gList) {
+        Product.all = JSON.parse(gList);
+        render();
+    }
+}
+
+for (let i = 0; i < Product.length; i++) {
+    new Product(Product[i]);
+}
+
+
+
+
+function getList() {
+    var gList = localStorage.getItem("productVotes");
+    if (gList) {
+        Vote.all = JSON.parse(gList);
+        render();
+    }
+}
+
 for (let i = 0; i < names.length; i++) {
     new Product(names[i]);
 }
@@ -109,7 +143,13 @@ function render() {
 
             switch (i) {
                 case rightIndex:
+                    Product.all[i].views++;
+                    break;
+
                 case centerIndex:
+                    Product.all[i].views++;
+                    break;
+
                 case leftIndex:
                     Product.all[i].views++;
 
@@ -200,7 +240,8 @@ function resultBtn(event) {
 render();
 imagesSection.addEventListener('click', handleClick);
 
-
+updateList()
+getList()
 
 
 
