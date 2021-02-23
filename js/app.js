@@ -40,14 +40,7 @@ let laps = 25;
 let imgs = [];
 
 
-// function randomValue(min, max) {
-//     return Math.floor(Math.random() * (max - min + 1)) + min;
-// }
 
-// function getExtention(img) {
-//     let idx = img.lastIndexOf('.');
-//     return (idx < 1) ? '' : img.substr(idx + 1);
-// }
 
 
 function
@@ -68,36 +61,70 @@ for (let i = 0; i < names.length; i++) {
 console.table(Product.all);
 
 
+let dontRepet = []
 
 function render() {
-    const leftIndex = randomNumber(0, Product.all.length - 1);
-    const centerIndex = randomNumber(0, Product.all.length - 1);
-    const rightIndex = randomNumber(0, Product.all.length - 1);
+    let leftIndex = randomNumber(0, Product.all.length - 1);
+    let centerIndex = randomNumber(0, Product.all.length - 1);
+    let rightIndex = randomNumber(0, Product.all.length - 1);
+
+    // don't repet 
+    while (dontRepet.includes(rightIndex) || (rightIndex === centerIndex || rightIndex === leftIndex)) {
+        rightIndex = randomNumber(0, Product.all.length - 1);
+        console.log('first');
+        console.log(dontRepet);
+    }
+
+    while (dontRepet.includes(centerIndex) || (centerIndex === rightIndex || centerIndex === leftIndex)) {
+        centerIndex = randomNumber(0, Product.all.length - 1);
+        console.log('second');
+    }
+
+    while (dontRepet.includes(leftIndex) || (leftIndex === centerIndex || leftIndex === rightIndex)) {
+        leftIndex = randomNumber(0, Product.all.length - 1);
+        console.log('last');
+    }
+
+    dontRepet = [rightIndex, centerIndex, leftIndex];
+
+
+
     // left imge
     leftImage.src = Product.all[leftIndex].path;
     leftImage.title = Product.all[leftIndex].name;
     leftImage.alt = Product.all[leftIndex].name;
+    Product.all[leftIndex].views++
 
-    // center imge
-    centerImage.src = Product.all[centerIndex].path;
+        // center imge
+        centerImage.src = Product.all[centerIndex].path;
     centerImage.title = Product.all[centerIndex].name;
     centerImage.alt = Product.all[centerIndex].name;
-    // right imge
-    rightImage.src = Product.all[rightIndex].path;
+    Product.all[centerIndex].views++
+        // right imge
+        rightImage.src = Product.all[rightIndex].path;
     rightImage.title = Product.all[rightIndex].name;
     rightImage.alt = Product.all[rightIndex].name;
+    Product.all[rightIndex].views++
+        for (let i = 0; i < Product.length; i++) {
 
-    for (let i = 0; i < Product.length; i++) {
-        if (leftIndex === centerIndex || rightIndex === leftIndex || rightIndex === centerIndex) {
-            render(Product.all)
-        } else {
-            break;
+            switch (i) {
+                case rightIndex:
+                case centerIndex:
+                case leftIndex:
+                    Product.all[i].views++;
+
+                    break;
+
+                default:
+                    break;
+            }
+
         }
 
-    }
 }
 
 
+render()
 
 imagesSection.addEventListener('click', handleClick);
 
@@ -124,12 +151,13 @@ render();
 
 function createChart() {
     const ctx = document.getElementById('myChart').getContext('2d');
-
+    const productviews = [];
     const productNames = [];
     const productVotes = [];
     for (let i = 0; i < Product.all.length; i++) {
         productNames.push(Product.all[i].name);
         productVotes.push(Product.all[i].votes);
+        productviews.push(Product.all[i].views);
     }
     console.log('Votes', productVotes);
     new Chart(ctx, {
@@ -171,6 +199,7 @@ function resultBtn(event) {
 }
 render();
 imagesSection.addEventListener('click', handleClick);
+
 
 
 
